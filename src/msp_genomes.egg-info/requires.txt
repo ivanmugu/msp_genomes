@@ -1,0 +1,6 @@
+biopython
+cgecore
+resfinder
+tabulate
+pandas
+openpyxl

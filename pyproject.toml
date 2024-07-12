@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "msp_genomes"
+version = "0.0.1"
+authors = [
+    {name = "Ivan Munoz-Gutierrez", email = "ivan.munoz.gutierrez@gmail.com"},
+]
+description = "Scripts to analyze assembly files from Unicycler in the MSP-lab"
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = [
+    "Unicylcler assemblies", "ResFinder", "Plasmidfinder"
+]
+dependencies = [
+    "biopython",
+    "cgecore",
+    "resfinder",
+    "tabulate",
+    "pandas",
+    "openpyxl"
+]
+
+[project.scripts]
+find_resistances = "msp_genomes.__main__:run_find_resistances"
+find_plasmids = "msp_genomes.__main__:run_find_plasmids"
+find_st = "msp_genomes.__main__:run_find_st"
+find_virulence = "msp_genomes.__main__:run_find_virulence"
+find_all = "msp_genomes.__main__:find_all"

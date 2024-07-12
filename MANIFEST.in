@@ -1,0 +1,2 @@
+recursively-include src/msp_genomes/databases *
+recursively-include src/msp_genomes/tmp *
