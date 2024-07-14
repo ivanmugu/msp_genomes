@@ -1,6 +1,0 @@
-[console_scripts]
-find_all = msp_genomes.__main__:find_all
-find_plasmids = msp_genomes.__main__:run_find_plasmids
-find_resistances = msp_genomes.__main__:run_find_resistances
-find_st = msp_genomes.__main__:run_find_st
-find_virulence = msp_genomes.__main__:run_find_virulence
