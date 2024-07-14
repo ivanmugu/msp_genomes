@@ -38,6 +38,7 @@ from msp_genomes.utils.get_cli import parse_command_line_input
 from msp_genomes.utils.miscellaneous import (
     get_assemblies_info,
     make_output_folders,
+    make_tmp_directory,
     clear_folder,
     compile_info_from_assemblies_into_dataframe,
 )
@@ -141,6 +142,9 @@ def find_virulence(cli: dict):
         cli["compilation_output"],
         _script_name,
     )
+
+    # Make tmp folder
+    make_tmp_directory
 
     # Run virulencefinder.
     virulencefinder_runner(strains_info)

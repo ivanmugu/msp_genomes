@@ -8,8 +8,9 @@ import importlib.resources as resources
 import shutil
 import pandas as pd
 import subprocess
+import sys
 
-from msp_genomes.utils.config import MSP_COLLECTIONS
+from msp_genomes.utils.config import MSP_COLLECTIONS, TMP_DIR
 
 _msp_collection = pd.read_excel(MSP_COLLECTIONS)
 
@@ -64,6 +65,12 @@ def compile_info_from_assemblies_into_dataframe(assemblies: Path) -> DataFrame:
                 counter += 1
     assemblies_info = pd.DataFrame.from_dict(assemblies_info, orient="index")
     return assemblies_info
+
+
+def make_tmp_directory(destiny_path: Path = TMP_DIR) -> None:
+    """Make tmp directory if it doesn't exists"""
+    if not destiny_path.exists():
+        subprocess.run(["mkdir", destiny_path])
 
 
 def clear_folder(folder_path: Path) -> None:

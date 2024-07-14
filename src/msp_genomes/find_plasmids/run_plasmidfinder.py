@@ -41,6 +41,7 @@ from msp_genomes.utils.get_cli import parse_command_line_input
 from msp_genomes.utils.miscellaneous import (
     get_assemblies_info,
     make_output_folders,
+    make_tmp_directory,
     compile_info_from_assemblies_into_dataframe,
 )
 import msp_genomes.utils.config as config
@@ -97,6 +98,7 @@ def find_plasmids(cli: dict) -> None:
     args = make_argparser_for_plasmidfinder()
     args.infile = cli["input_folder"]
     args.outdir = cli["output_folder"]
+
     # Get information to run plasmidfinder and compile the results.
     strains_info = get_assemblies_info(
         cli["input_folder"],
@@ -104,6 +106,9 @@ def find_plasmids(cli: dict) -> None:
         cli["compilation_output"],
         _cge_script_name,
     )
+
+    # Make tmp directory
+    make_tmp_directory()
 
     # Run plasmidfinder
     plasmidfinder_wrapper(strains_info, args)

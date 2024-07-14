@@ -65,7 +65,7 @@ def resfinder_runner(assemblies_info: dict) -> None:
                 "-t",  # Threshold for identity
                 "0.9",  # 90% (0.9) is the default value in CGE
                 "--acquired",
-                # "--point",
+                "--point",
                 "-ifa",
                 value["assembly_path"],
                 "--ignore_missing_species",

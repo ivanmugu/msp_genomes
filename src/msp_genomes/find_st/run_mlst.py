@@ -11,6 +11,7 @@ from msp_genomes.utils.get_cli import parse_command_line_input
 from msp_genomes.utils.miscellaneous import (
     get_assemblies_info,
     make_output_folders,
+    make_tmp_directory,
     clear_folder,
     log_writer,
     compile_info_from_assemblies_into_dataframe,
@@ -136,6 +137,7 @@ def find_st(cli: dict) -> None:
     args = make_argparser_for_mlst()
     args.infile = cli["input_folder"]
     args.outdir = cli["output_folder"]
+
     # Get information to run mlst and compile the results.
     strains_info = get_assemblies_info(
         cli["input_folder"],
@@ -143,6 +145,9 @@ def find_st(cli: dict) -> None:
         cli["compilation_output"],
         _cge_script_name,
     )
+
+    # Make tmp folder
+    make_tmp_directory()
 
     # Get species db names from the mlst config file
     species_db_names = get_species_db_name()
