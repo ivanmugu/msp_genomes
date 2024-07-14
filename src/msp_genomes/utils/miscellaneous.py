@@ -8,7 +8,6 @@ import importlib.resources as resources
 import shutil
 import pandas as pd
 import subprocess
-import sys
 
 from msp_genomes.utils.config import MSP_COLLECTIONS, TMP_DIR
 

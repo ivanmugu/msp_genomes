@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "msp_genomes"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
     {name = "Ivan Munoz-Gutierrez", email = "ivan.munoz.gutierrez@gmail.com"},
 ]
 description = "Scripts to analyze assembly files from Unicycler in the MSP-lab"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 keywords = [
     "Unicylcler assemblies", "ResFinder", "Plasmidfinder"
 ]
