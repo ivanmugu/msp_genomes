@@ -31,7 +31,6 @@ from pathlib import Path
 import pandas as pd
 from pandas import DataFrame
 import subprocess
-import json
 from typing import Optional
 
 from msp_genomes.utils.get_cli import parse_command_line_input
@@ -95,6 +94,7 @@ def compile_virulencefinder_results_into_dataframe(strains_info: dict) -> DataFr
         for key, value in virulence_results.items():
             results[counter] = {
                 "Isolate ID": strain,
+                "Run info": info["run_info"],
                 "Molecule size": key,
                 "Virulence": value,
             }
@@ -158,14 +158,17 @@ def find_virulence(cli: dict):
 
     # Compile info from the assembly files into a DataFrame.
     df_assemblies = compile_info_from_assemblies_into_dataframe(cli["input_folder"])
-    df_assemblies.sort_values(
-        by=["Isolate ID", "Molecule size"], ascending=[True, False]
+    df_assemblies = df_assemblies.sort_values(
+        by=["Isolate ID", "Run info", "Molecule size"], ascending=[True, True, False]
     )
     # print(df_assemblies)
 
     # Merge DataFrames.
     merged_df = pd.merge(
-        df_assemblies, compiled_results, on=["Isolate ID", "Molecule size"], how="left"
+        df_assemblies,
+        compiled_results,
+        on=["Isolate ID", "Run info", "Molecule size"],
+        how="left",
     )
     # print(merged_df)
 

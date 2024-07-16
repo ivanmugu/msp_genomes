@@ -75,6 +75,7 @@ def compile_plasmidfinder_results_into_dataframe(strains_info: dict) -> DataFram
         # key is molecule size and value is plasmid type.
         for key, value in plasmids.items():
             results[counter] = {
+                "Run info": info["run_info"],
                 "Isolate ID": strain,
                 "Molecule size": key,
                 "Plasmids": value,

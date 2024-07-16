@@ -118,12 +118,15 @@ def find_plasmids(cli: dict) -> None:
 
     # Compile info from the assembly files into a DataFrame
     df_assemblies = compile_info_from_assemblies_into_dataframe(cli["input_folder"])
-    df_assemblies.sort_values(
-        by=["Isolate ID", "Molecule size"], ascending=[True, False]
+    df_assemblies = df_assemblies.sort_values(
+        by=["Isolate ID", "Run info", "Molecule size"], ascending=[True, True, False]
     )
 
     merged_df = pd.merge(
-        df_assemblies, compiled_results, on=["Isolate ID", "Molecule size"], how="left"
+        df_assemblies,
+        compiled_results,
+        on=["Isolate ID", "Run info", "Molecule size"],
+        how="left",
     )
     print(merged_df)
 

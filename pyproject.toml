@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "msp_genomes"
-version = "0.0.3"
+version = "0.0.4"
 authors = [
     {name = "Ivan Munoz-Gutierrez", email = "ivan.munoz.gutierrez@gmail.com"},
 ]
@@ -21,6 +21,7 @@ dependencies = [
     "Virulencefinder",
     "tabulate",
     "pandas",
+    "natsort",
     "openpyxl"
 ]
 

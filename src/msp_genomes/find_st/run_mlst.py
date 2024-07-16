@@ -124,7 +124,11 @@ def compile_mlst_results_into_dataframe(strains_info: dict) -> DataFrame:
         with open(data_json, "r") as f:
             mlst_results = json.load(f)
         st = mlst_results["mlst"]["results"]["sequence_type"]
-        results[counter] = {"Isolate ID": strain, "ST": st}
+        results[counter] = {
+            "Run info": info["run_info"],
+            "Isolate ID": strain,
+            "ST": st,
+        }
         counter += 1
     # Convert results into a DataFrame
     results = pd.DataFrame.from_dict(results, orient="index")
@@ -163,12 +167,17 @@ def find_st(cli: dict) -> None:
 
     # Compile info from the assembly files into a DataFrame.
     df_assemblies = compile_info_from_assemblies_into_dataframe(cli["input_folder"])
-    df_assemblies.sort_values(
-        by=["Isolate ID", "Molecule size"], ascending=[True, False]
+    df_assemblies = df_assemblies.sort_values(
+        by=["Isolate ID", "Run info", "Molecule size"], ascending=[True, True, False]
     )
 
     # Merge DataFrames.
-    merged_df = pd.merge(df_assemblies, compiled_results, on=["Isolate ID"], how="left")
+    merged_df = pd.merge(
+        df_assemblies,
+        compiled_results,
+        on=["Isolate ID", "Run info"],
+        how="left",
+    )
 
     # Export DataFrame as Excel file.
     merged_df.to_excel(

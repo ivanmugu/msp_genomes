@@ -6,6 +6,8 @@ from msp_genomes.find_virulence.run_virulencefinder import find_virulence
 from msp_genomes.utils.consolidate_compilations import consolidate
 from msp_genomes.utils.config import OUTPUT_NAMES_COMPILATIONS
 
+# TODO: add run data to database extracted.
+
 
 def run_find_resistances():
     cli = parse_command_line_input("find_resistances")

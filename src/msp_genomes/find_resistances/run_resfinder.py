@@ -29,6 +29,8 @@ assemblies/
 """
 
 import pandas as pd
+import numpy as np
+from natsort import index_natsorted
 import subprocess
 
 from msp_genomes.utils.get_cli import parse_command_line_input
@@ -97,13 +99,16 @@ def find_resistances(cli: dict) -> None:
 
     # Compile info from the assembly files into a DataFrame.
     df_assemblies = compile_info_from_assemblies_into_dataframe(cli["input_folder"])
-    df_assemblies.sort_values(
-        by=["Isolate ID", "Molecule size"], ascending=[True, False]
+    df_assemblies = df_assemblies.sort_values(
+        by=["Isolate ID", "Run info", "Molecule size"], ascending=[True, True, False]
     )
 
     # Merge DataFrames.
     merged_df = pd.merge(
-        df_assemblies, compiled_results, on=["Isolate ID", "Molecule size"], how="left"
+        df_assemblies,
+        compiled_results,
+        on=["Isolate ID", "Run info", "Molecule size"],
+        how="left",
     )
 
     # Export DataFrame as Excel file.

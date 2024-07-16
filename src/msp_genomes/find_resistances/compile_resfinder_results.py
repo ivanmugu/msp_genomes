@@ -158,6 +158,7 @@ def compile_resfinder_results_into_dataframe(
         for key, value in resistances.items():
             results[counter] = {
                 "Isolate ID": strain,
+                "Run info": info["run_info"],
                 "Molecule size": key,
             }
             results[counter].update(value)

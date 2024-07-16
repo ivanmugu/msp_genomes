@@ -22,7 +22,14 @@ def consolidate(
             merged_df = pd.merge(
                 merged_df,
                 df,
-                on=["Isolate ID", "Molecule size", "Species", "Score", "Topology"],
+                on=[
+                    "Isolate ID",
+                    "Run info",
+                    "Molecule size",
+                    "Species",
+                    "Score",
+                    "Topology",
+                ],
                 how="left",
             )
         counter += 1

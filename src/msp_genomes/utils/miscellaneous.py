@@ -48,7 +48,9 @@ def compile_info_from_assemblies_into_dataframe(assemblies: Path) -> DataFrame:
         assembly_path = assembly / "assembly.fasta"
         if assembly.is_dir() and assembly_path.exists():
             # Get strain ID from folder's name
-            strain = assembly.name.split("_")[0]
+            folder_name = assembly.name.split("_", 1)
+            strain = folder_name[0]
+            run_info = folder_name[1]
             # Get strain's info
             strain_info = get_strain_info(strain, _msp_collection)
             # Get molecules info from assembly.fasta
@@ -56,6 +58,7 @@ def compile_info_from_assemblies_into_dataframe(assemblies: Path) -> DataFrame:
             for value in molecules.values():
                 assemblies_info[counter] = {
                     "Isolate ID": strain,
+                    "Run info": run_info,
                     "Species": strain_info[0],
                     "Score": strain_info[1],
                     "Molecule size": value.get("length"),
@@ -127,12 +130,14 @@ def get_assemblies_info(
 
     {
         'SW3902': {
+            'run_info': 'n1565-n1566_R129AB-NB03',
             'assembly_path': PosixPath('assemblies/SW3902_n1565/assembly.fasta'),
             'species': 'Escherichia coli',
             'score': 2.351,
             'output_folder': PosixPath('assemblies/SW3902_n1565/SW3902_resfinder'),
         },
         'SW1327R': {
+            'run_info': 'n2219_R129AB-NB11',
             'assembly_path': PosixPath('assemblies/SW1327R_n1610/assembly.fasta')
             'species': 'Not found',
             'score': 'Not found',
@@ -145,9 +150,12 @@ def get_assemblies_info(
     for assembly in assemblies.iterdir():
         assembly_path = assembly / "assembly.fasta"
         if assembly.is_dir() and assembly_path.exists():
-            strain = assembly.name.split("_")[0]
+            folder_name = assembly.name.split("_", 1)
+            strain = folder_name[0]
+            run_info = folder_name[1]
             strain_info = get_strain_info(strain, _msp_collection)
             assemblies_info[strain] = {
+                "run_info": run_info,
                 "assembly_path": assembly_path,
                 "species": strain_info[0],
                 "score": strain_info[1],
@@ -185,5 +193,18 @@ def make_output_folders(assemblies_info: dict) -> None:
 
 
 if __name__ == "__main__":
-    print(get_pkg_path())
-    clear_folder(get_pkg_path() / "tmp")
+    # print(get_pkg_path())
+    # clear_folder(get_pkg_path() / "tmp")
+    info = get_assemblies_info(
+        Path(
+            "/Users/msp/Documents/Coding/python_projects/MSP_genomes_project/assemblies"
+        ),
+        Path(
+            "/Users/msp/Documents/Coding/python_projects/MSP_genomes_project/assemblies"
+        ),
+        Path(
+            "/Users/msp/Documents/Coding/python_projects/MSP_genomes_project/assemblies"
+        ),
+        "test",
+    )
+    print(info)
