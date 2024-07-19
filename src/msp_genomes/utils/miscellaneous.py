@@ -152,7 +152,11 @@ def get_assemblies_info(
         if assembly.is_dir() and assembly_path.exists():
             folder_name = assembly.name.split("_", 1)
             strain = folder_name[0]
-            run_info = folder_name[1]
+            # Check if folder name has run info
+            if len(folder_name) > 1:
+                run_info = folder_name[1]
+            else:
+                run_info = "Not found"
             strain_info = get_strain_info(strain, _msp_collection)
             assemblies_info[strain] = {
                 "run_info": run_info,
