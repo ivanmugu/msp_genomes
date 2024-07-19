@@ -50,7 +50,11 @@ def compile_info_from_assemblies_into_dataframe(assemblies: Path) -> DataFrame:
             # Get strain ID from folder's name
             folder_name = assembly.name.split("_", 1)
             strain = folder_name[0]
-            run_info = folder_name[1]
+            # Check if folder name has run info
+            if len(folder_name) > 1:
+                run_info = folder_name[1]
+            else:
+                run_info = "Not found"
             # Get strain's info
             strain_info = get_strain_info(strain, _msp_collection)
             # Get molecules info from assembly.fasta
