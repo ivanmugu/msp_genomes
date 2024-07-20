@@ -38,7 +38,6 @@ from msp_genomes.find_resistances.compile_resfinder_results import (
 from msp_genomes.utils.miscellaneous import (
     get_assemblies_info,
     make_output_folders,
-    rm_folder,
     compile_info_from_assemblies_into_dataframe,
 )
 import msp_genomes.utils.config as config

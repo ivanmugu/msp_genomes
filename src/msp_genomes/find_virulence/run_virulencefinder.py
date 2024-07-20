@@ -80,7 +80,7 @@ def compile_virulencefinder_results_into_dataframe(
     results = {}  # To compile information
     counter = 0  # To use it as keys in results. It will help to make the DataFrame.
     # Iterate over virulencefinder results files to compile the information.
-    for strain, info in strains_info.items():
+    for info in strains_info.values():
         # Check if output folder has virulence results.
         virulence_results_path = info["output_folder"] / _output_virulencefinder_file
         # If not virulence results path, continue
@@ -99,7 +99,7 @@ def compile_virulencefinder_results_into_dataframe(
         # associated with the molecule.
         for key, value in virulence_results.items():
             results[counter] = {
-                "Isolate ID": strain,
+                "Isolate ID": info["strain"],
                 "Run info": info["run_info"],
                 "Molecule size": key,
                 "Virulence": value,

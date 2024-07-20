@@ -70,7 +70,7 @@ def compile_plasmidfinder_results_into_dataframe(
     results = {}  # To compile information
     counter = 0  # to use it as keys in results. It will help to make the DataFrame.
     # Iterate over plasmidfinder results files to compile the information.
-    for strain, info in strains_info.items():
+    for info in strains_info.values():
         # Get plasmids types from molecules.
         plasmids = extract_plasmidfinder_results_by_molecule_size(
             info["output_folder"] / _plasmidfinder_results_file
@@ -80,7 +80,7 @@ def compile_plasmidfinder_results_into_dataframe(
         for key, value in plasmids.items():
             results[counter] = {
                 "Run info": info["run_info"],
-                "Isolate ID": strain,
+                "Isolate ID": info["strain"],
                 "Molecule size": key,
                 "Plasmids": value,
             }

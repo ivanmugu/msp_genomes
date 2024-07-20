@@ -118,7 +118,7 @@ def compile_mlst_results_into_dataframe(
     results = {}  # To compile information
     counter = 0  # To use it as keys in results. It will help to make the DataFrame
     # Iterate over mlst results files to compile the information.
-    for strain, info in strains_info.items():
+    for info in strains_info.values():
         # Check if output folder has mlst results.
         data_json = info["output_folder"] / _output_mlst_file
         # If not data in data_jason, remove output folder and continue
@@ -131,7 +131,7 @@ def compile_mlst_results_into_dataframe(
         st = mlst_results["mlst"]["results"]["sequence_type"]
         results[counter] = {
             "Run info": info["run_info"],
-            "Isolate ID": strain,
+            "Isolate ID": info["strain"],
             "ST": st,
         }
         counter += 1

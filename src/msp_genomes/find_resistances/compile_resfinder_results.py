@@ -149,7 +149,7 @@ def compile_resfinder_results_into_dataframe(
     results = {}  # To compile information
     counter = 0  # To use it as keys in results. It will help to make the DataFrame.
     # Iterate over resfinder results files to compile the information.
-    for strain, info in strains_info.items():
+    for info in strains_info.values():
         # Get ARGs from molecules.
         resistances = extract_resfinder_results_by_molecule_size(
             info["output_folder"] / _resfinder_results_file, phenotypes_df
@@ -159,7 +159,7 @@ def compile_resfinder_results_into_dataframe(
         # values.
         for key, value in resistances.items():
             results[counter] = {
-                "Isolate ID": strain,
+                "Isolate ID": info["strain"],
                 "Run info": info["run_info"],
                 "Molecule size": key,
             }

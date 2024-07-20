@@ -142,19 +142,25 @@ def get_assemblies_info(
     Return example:
 
     {
-        'SW3902': {
+        'SW3902_n1565-n1566_R129AB-NB03': {
+            'strain': 'SW3902',
             'run_info': 'n1565-n1566_R129AB-NB03',
             'assembly_path': PosixPath('assemblies/SW3902_n1565/assembly.fasta'),
             'species': 'Escherichia coli',
             'score': 2.351,
-            'output_folder': PosixPath('assemblies/SW3902_n1565/SW3902_resfinder'),
+            'output_folder': PosixPath(
+                'assemblies/SW3902_n1565/SW3902_n1565-n1566_R129AB-NB03_resfinder'
+            ),
         },
-        'SW1327R': {
+        'SW1327R_n2219_R129AB-NB11': {
+            'strain': 'SW1327R',
             'run_info': 'n2219_R129AB-NB11',
             'assembly_path': PosixPath('assemblies/SW1327R_n1610/assembly.fasta')
             'species': 'Not found',
             'score': 'Not found',
-            'output_folder': PosixPath('assemblies/SW1327R_n1610/SW1327R_resfinder'),
+            'output_folder': PosixPath(
+                'assemblies/SW1327R_n1610/SW1327R_n2219_R129AB-NB11_resfinder'
+            ),
         }
     }
     """
@@ -171,13 +177,14 @@ def get_assemblies_info(
             else:
                 run_info = "Not found"
             strain_info = get_strain_info(strain, _msp_collection)
-            assemblies_info[strain] = {
+            assemblies_info[assembly.name] = {
+                "strain": strain,
                 "run_info": run_info,
                 "assembly_path": assembly_path,
                 "species": strain_info[0],
                 "score": strain_info[1],
                 "output_folder": make_output_path(
-                    assemblies, assembly, output_folder, strain, cge_script_name
+                    assemblies, assembly, output_folder, assembly.name, cge_script_name
                 ),
             }
         elif assembly.is_dir() and not assembly_path.exists():
@@ -225,3 +232,5 @@ if __name__ == "__main__":
         "test",
     )
     print(info)
+    # for isolale, info in info.items():
+    #     print(f"{isolale} -> {info}\n")
