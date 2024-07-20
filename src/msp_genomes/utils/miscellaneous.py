@@ -91,6 +91,15 @@ def clear_folder(folder_path: Path) -> None:
             print(f"Failed to delete {item}. Reason: {e}")
 
 
+def rm_folder(folder_path: Path) -> None:
+    """Remove folder"""
+    if folder_path.is_dir():
+        try:
+            shutil.rmtree(folder_path)
+        except Exception as e:
+            print(f"Failed to delete {folder_path}. Reason: {e}")
+
+
 def get_pkg_path(package: str = "msp_genomes") -> Path:
     """Get path to package directory in a src-layout"""
     return resources.files(f"{package}")

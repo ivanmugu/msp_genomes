@@ -38,6 +38,7 @@ from msp_genomes.utils.miscellaneous import (
     get_assemblies_info,
     make_output_folders,
     make_tmp_directory,
+    rm_folder,
     clear_folder,
     compile_info_from_assemblies_into_dataframe,
 )
@@ -71,7 +72,10 @@ def virulencefinder_runner(assemblies_info: dict) -> None:
         )
 
 
-def compile_virulencefinder_results_into_dataframe(strains_info: dict) -> DataFrame:
+def compile_virulencefinder_results_into_dataframe(
+    strains_info: dict,
+    extended_output: bool = True,
+) -> DataFrame:
     """Compile virulencefinder results from folders inta a DataFrame."""
     results = {}  # To compile information
     counter = 0  # To use it as keys in results. It will help to make the DataFrame.
@@ -79,14 +83,16 @@ def compile_virulencefinder_results_into_dataframe(strains_info: dict) -> DataFr
     for strain, info in strains_info.items():
         # Check if output folder has virulence results.
         virulence_results_path = info["output_folder"] / _output_virulencefinder_file
+        # If not virulence results path, continue
         if not (virulence_results_path.exists()):
             continue
         # Get virulence genes.
         virulence_results = extract_virulencefinder_results_by_molecule_size(
             virulence_results_path
         )
-        # If there are not virulence genes, continue
+        # If there are not virulence genes, remove output folder and continue
         if not virulence_results:
+            rm_folder(info["output_folder"])
             continue
         # Iterate over the virulence_results dictionary.
         # key is molecule size and value is an string with all the virulence genes
@@ -99,6 +105,10 @@ def compile_virulencefinder_results_into_dataframe(strains_info: dict) -> DataFr
                 "Virulence": value,
             }
             counter += 1
+        # If not extended output
+        if not extended_output:
+            rm_folder(info["output_folder"])
+
     # Convert results into a DataFrame
     results = pd.DataFrame.from_dict(results, orient="index")
 
@@ -153,7 +163,10 @@ def find_virulence(cli: dict):
     clear_folder(config.TMP_DIR)
 
     # Compile virulencefinder results into a DataFrame.
-    compiled_results = compile_virulencefinder_results_into_dataframe(strains_info)
+    compiled_results = compile_virulencefinder_results_into_dataframe(
+        strains_info,
+        cli["extended_output"],
+    )
     print(compiled_results)
 
     # Compile info from the assembly files into a DataFrame.

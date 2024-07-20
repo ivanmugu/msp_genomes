@@ -29,8 +29,6 @@ assemblies/
 """
 
 import pandas as pd
-import numpy as np
-from natsort import index_natsorted
 import subprocess
 
 from msp_genomes.utils.get_cli import parse_command_line_input
@@ -40,6 +38,7 @@ from msp_genomes.find_resistances.compile_resfinder_results import (
 from msp_genomes.utils.miscellaneous import (
     get_assemblies_info,
     make_output_folders,
+    rm_folder,
     compile_info_from_assemblies_into_dataframe,
 )
 import msp_genomes.utils.config as config
@@ -95,7 +94,10 @@ def find_resistances(cli: dict) -> None:
     resfinder_runner(strains_info)
 
     # Compile resfinder results.
-    compiled_results = compile_resfinder_results_into_dataframe(strains_info)
+    compiled_results = compile_resfinder_results_into_dataframe(
+        strains_info=strains_info,
+        extended_output=cli["extended_output"],
+    )
 
     # Compile info from the assembly files into a DataFrame.
     df_assemblies = compile_info_from_assemblies_into_dataframe(cli["input_folder"])
@@ -116,6 +118,7 @@ def find_resistances(cli: dict) -> None:
         cli["compilation_output"] / config.OUTPUT_NAMES_COMPILATIONS["resfinder"],
         index=False,
     )
+
     print(merged_df)
 
 

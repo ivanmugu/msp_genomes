@@ -114,7 +114,10 @@ def find_plasmids(cli: dict) -> None:
     plasmidfinder_wrapper(strains_info, args)
 
     # Compile plasmidfinder results.
-    compiled_results = compile_plasmidfinder_results_into_dataframe(strains_info)
+    compiled_results = compile_plasmidfinder_results_into_dataframe(
+        strains_info,
+        cli["extended_output"],
+    )
 
     # Compile info from the assembly files into a DataFrame
     df_assemblies = compile_info_from_assemblies_into_dataframe(cli["input_folder"])

@@ -11,6 +11,7 @@ from msp_genomes.utils.get_cli import parse_command_line_input
 from msp_genomes.utils.miscellaneous import (
     get_assemblies_info,
     make_output_folders,
+    rm_folder,
     make_tmp_directory,
     clear_folder,
     log_writer,
@@ -110,7 +111,9 @@ def mlst_wrapper(
         mlst_runner(args_mlst)
 
 
-def compile_mlst_results_into_dataframe(strains_info: dict) -> DataFrame:
+def compile_mlst_results_into_dataframe(
+    strains_info: dict, extended_output: bool = True
+) -> DataFrame:
     """Compile mlst results from folders into a DataFrame."""
     results = {}  # To compile information
     counter = 0  # To use it as keys in results. It will help to make the DataFrame
@@ -118,7 +121,9 @@ def compile_mlst_results_into_dataframe(strains_info: dict) -> DataFrame:
     for strain, info in strains_info.items():
         # Check if output folder has mlst results.
         data_json = info["output_folder"] / _output_mlst_file
+        # If not data in data_jason, remove output folder and continue
         if not (data_json.exists()):
+            rm_folder(info["output_folder"])
             continue
         # Get sequence type (st)
         with open(data_json, "r") as f:
@@ -130,6 +135,10 @@ def compile_mlst_results_into_dataframe(strains_info: dict) -> DataFrame:
             "ST": st,
         }
         counter += 1
+        # if not extended output, remove output folder
+        if not extended_output:
+            rm_folder(info["output_folder"])
+
     # Convert results into a DataFrame
     results = pd.DataFrame.from_dict(results, orient="index")
 
@@ -163,7 +172,10 @@ def find_st(cli: dict) -> None:
     clear_folder(TMP_DIR)
 
     # compile mlst results
-    compiled_results = compile_mlst_results_into_dataframe(strains_info)
+    compiled_results = compile_mlst_results_into_dataframe(
+        strains_info,
+        cli["extended_output"],
+    )
 
     # Compile info from the assembly files into a DataFrame.
     df_assemblies = compile_info_from_assemblies_into_dataframe(cli["input_folder"])

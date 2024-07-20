@@ -23,6 +23,7 @@ from msp_genomes.utils.get_cli import parse_command_line_input
 from msp_genomes.utils.miscellaneous import (
     get_assemblies_info,
     compile_info_from_assemblies_into_dataframe,
+    rm_folder,
 )
 from msp_genomes.utils.config import PHENOTYPES_TABLE
 
@@ -138,6 +139,7 @@ def extract_resfinder_results_by_molecule_size(
 
 def compile_resfinder_results_into_dataframe(
     strains_info: dict,
+    extended_output: bool = True,
     include_all_phenotypes_headers: bool = True,
 ) -> DataFrame:
     """Compile resfinder results from folders into a DataFrame."""
@@ -163,6 +165,9 @@ def compile_resfinder_results_into_dataframe(
             }
             results[counter].update(value)
             counter += 1
+        # If not extended extended output
+        if not extended_output:
+            rm_folder(info["output_folder"])
 
     # Convert results into a DataFrame.
     results = pd.DataFrame.from_dict(results, orient="index")

@@ -22,6 +22,7 @@ from msp_genomes.utils.get_cli import parse_command_line_input
 from msp_genomes.utils.miscellaneous import (
     get_assemblies_info,
     compile_info_from_assemblies_into_dataframe,
+    rm_folder,
 )
 
 _plasmidfinder_results_file = "results_tab.tsv"
@@ -61,7 +62,10 @@ def extract_plasmidfinder_results_by_molecule_size(
     return results
 
 
-def compile_plasmidfinder_results_into_dataframe(strains_info: dict) -> DataFrame:
+def compile_plasmidfinder_results_into_dataframe(
+    strains_info: dict,
+    extended_output: bool = True,
+) -> DataFrame:
     """Compile plasmidfinder results from folders into a DataFrame."""
     results = {}  # To compile information
     counter = 0  # to use it as keys in results. It will help to make the DataFrame.
@@ -81,6 +85,9 @@ def compile_plasmidfinder_results_into_dataframe(strains_info: dict) -> DataFram
                 "Plasmids": value,
             }
             counter += 1
+        if not extended_output:
+            rm_folder(info["output_folder"])
+
     # Covert results into a DataFrame
     results = pd.DataFrame.from_dict(results, orient="index")
 
