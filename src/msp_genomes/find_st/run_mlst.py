@@ -89,7 +89,7 @@ def mlst_wrapper(
     make_output_folders(assemblies_info)
     # Run mlst on each assembly.
     for key, value in assemblies_info.items():
-        print(value)
+        # print(value)
         # I have to convert assembly_path and output_folder to str because mlst doesn't
         # like Path. Also, the assembly_path should be given as list.
         args_mlst.infile = [str(value["assembly_path"])]
@@ -121,14 +121,15 @@ def compile_mlst_results_into_dataframe(
     for info in strains_info.values():
         # Check if output folder has mlst results.
         data_json = info["output_folder"] / _output_mlst_file
-        # If not data in data_jason, remove output folder and continue
+        # If not data in data_jason, remove output folder and sequence type is Not found
         if not (data_json.exists()):
             rm_folder(info["output_folder"])
-            continue
-        # Get sequence type (st)
-        with open(data_json, "r") as f:
-            mlst_results = json.load(f)
-        st = mlst_results["mlst"]["results"]["sequence_type"]
+            st = "Not found"
+        # Else, get sequence type
+        else:
+            with open(data_json, "r") as f:
+                mlst_results = json.load(f)
+                st = mlst_results["mlst"]["results"]["sequence_type"]
         results[counter] = {
             "Run info": info["run_info"],
             "Isolate ID": info["strain"],
