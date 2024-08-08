@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "msp_genomes"
-version = "0.0.9"
+version = "0.0.10"
 authors = [
     {name = "Ivan Munoz-Gutierrez", email = "ivan.munoz.gutierrez@gmail.com"},
 ]
@@ -31,3 +31,4 @@ find_plasmids = "msp_genomes.__main__:run_find_plasmids"
 find_st = "msp_genomes.__main__:run_find_st"
 find_virulence = "msp_genomes.__main__:run_find_virulence"
 find_all = "msp_genomes.__main__:find_all"
+find_mge = "msp_genomes.__main__:run_find_mge"
