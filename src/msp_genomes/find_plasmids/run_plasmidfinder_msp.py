@@ -28,7 +28,6 @@ assemblies/
 ```
 """
 
-from argparse import ArgumentParser
 from argparse import Namespace
 from pathlib import Path
 import pandas as pd
@@ -42,6 +41,7 @@ from msp_genomes.utils.miscellaneous import (
     get_assemblies_info,
     make_output_folders,
     make_tmp_directory,
+    clear_folder,
     compile_info_from_assemblies_into_dataframe,
 )
 import msp_genomes.utils.config as config
@@ -139,9 +139,12 @@ def find_plasmids(cli: dict) -> None:
         index=False,
     )
 
+    # Clear tmp directory
+    clear_folder(TMP_DIR)
+
 
 if __name__ == "__main__":
-    cli = parse_command_line_input("find_plasmids")
+    cli = parse_command_line_input("find_plasmids_msp")
     print(cli)
     find_plasmids(cli)
     # print(misc.get_strain_info("SW4848", MSP_COLLECTIONS))

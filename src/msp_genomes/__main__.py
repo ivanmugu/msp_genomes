@@ -2,7 +2,7 @@ from msp_genomes.utils.get_cli import parse_command_line_input
 from msp_genomes.utils.consolidate_compilations import consolidate
 from msp_genomes.utils.config import OUTPUT_NAMES_COMPILATIONS
 from msp_genomes.find_resistances.run_resfinder import find_resistances
-from msp_genomes.find_plasmids.run_plasmidfinder import find_plasmids
+from msp_genomes.find_plasmids.run_plasmidfinder_msp import find_plasmids
 from msp_genomes.find_st.run_mlst import find_st
 from msp_genomes.find_virulence.run_virulencefinder import find_virulence
 from msp_genomes.find_mge.run_mge_finder import find_mge

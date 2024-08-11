@@ -10,19 +10,14 @@ from tabulate import tabulate
 from cgecore.blaster import Blaster
 from cgecore.cgefinder import CGEFinder
 from distutils.spawn import find_executable
-from pathlib import Path  # Modified by IMG
-import shutil  # Modified by IMG
 import sys
 import os
 import time
-import re
-import subprocess
 import json
 import gzip
 import pprint
 
 # Modified by IMG
-from msp_genomes.utils.miscellaneous import clear_folder
 from msp_genomes.utils.config import PLASMIDFINDER_DB, TMP_DIR
 
 ##########################################################################
@@ -494,10 +489,10 @@ def plasmidfinder_runner(args):  # Modified by IMG
                     gene = tmp
                     note = ""
                     acc = ""
-                try:
-                    variant = tmp[3]
-                except IndexError:
-                    variant = ""
+                # try:
+                #     variant = tmp[3]
+                # except IndexError:
+                #     variant = ""
 
                 identity = hit["perc_ident"]
                 coverage = hit["perc_coverage"]
@@ -599,14 +594,13 @@ def plasmidfinder_runner(args):  # Modified by IMG
                     identity = str(gene_info["identity"])
                     coverage = str(gene_info["coverage"])
 
-                    # template_HSP = ("{hsp_len} / {template_len}".format(hsp_len=gene_info["HSP_length"],template_len=gene_info["template_length"]))
                     template_HSP = (
                         str(gene_info["HSP_length"])
                         + " / "
                         + str(gene_info["template_length"])
                     )
 
-                    position_in_ref = gene_info["position_in_ref"]
+                    # position_in_ref = gene_info["position_in_ref"]
                     position_in_contig = gene_info["positions_in_contig"]
                     note = gene_info["note"]
                     acc = gene_info["accession"]
